@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package laboratorio2;
-
 import javax.swing.*;
 import java.awt.*;
 
