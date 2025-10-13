@@ -3,8 +3,10 @@ package Ejercicio4;
 import java.util.ArrayList;
 import java.util.List;
 
-import controller.Controller;
-
+/*
+ Clase base para todos los personajes (jugador y enemigos).
+ Comentarios simples para explicar los métodos más importantes.
+*/
 public abstract class Combatiente {
     protected int id;
     protected String nombre;
@@ -19,53 +21,46 @@ public abstract class Combatiente {
         this.ataque = ataque;
     }
 
-    // Mensaje al iniciar batalla / morir / ganar
+    // Mensaje simple para inicio, victoria o derrota
     public String mensaje(String contexto) {
-        return nombre + " dice: \"" + contexto + "\"";
+        return nombre + ": " + contexto;
     }
 
-    // cada combatiente debe tomar turno
+    // Cada tipo de combatiente define cómo toma su turno
     public abstract void tomarTurno(Controller controller);
 
+    // Pasar turno sin hacer nada
     public void pasarTurno(Controller controller) {
-        controller.log(nombre + " pasó su turno.");
+        controller.registrarAccion(nombre + " pasó su turno.");
     }
 
+    // Atacar a otro combatiente. Se respeta defensa por sobreescritura.
     public void atacar(Combatiente objetivo, Controller controller) {
-        if (this.isMuerto() || objetivo.isMuerto()) {
-            controller.log(this.nombre + " no puede atacar (muerto o objetivo muerto).");
+        if (this.isMuerto() || objetivo == null || objetivo.isMuerto()) {
+            controller.registrarAccion(nombre + " no puede atacar (objetivo inválido o muerto).");
             return;
         }
-        int daño = Math.max(0, this.ataque - objetivo.getDefense());
-        objetivo.recibirDaño(daño);
-        controller.log(this.nombre + " ataca a " + objetivo.nombre + " por " + daño + " pts.");
+        int danio = Math.max(0, this.ataque - objetivo.getDefense());
+        objetivo.recibirDaño(danio);
+        controller.registrarAccion(nombre + " ataca a " + objetivo.getNombre() + " por " + danio + " puntos.");
         if (objetivo.isMuerto()) {
-            controller.log(objetivo.nombre + " ha muerto!");
-            controller.log(objetivo.mensaje("He sido derrotado..."));
+            controller.registrarAccion(objetivo.getNombre() + " fue derrotado.");
         }
     }
 
-    public void recibirDaño(int daño) {
-        this.vida -= daño;
+    // Restar vida al recibir daño
+    public void recibirDaño(int danio) {
+        this.vida -= danio;
         if (this.vida < 0) this.vida = 0;
     }
 
-    public boolean isMuerto() {
-        return vida <= 0;
-    }
+    public boolean isMuerto() { return vida <= 0; }
 
-    public int getDefense() {
-        // por defecto sin defensa; jefes pueden sobreescribir
-        return 0;
-    }
+    // Defensa por defecto (0). Jefes pueden tener defensa mayor.
+    public int getDefense() { return 0; }
 
-    public void agregarItem(Item i) {
-        items.add(i);
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
+    public void agregarItem(Item i) { items.add(i); }
+    public List<Item> getItems() { return items; }
 
     public String listarItems() {
         if (items.isEmpty()) return "Sin items";
@@ -76,7 +71,7 @@ public abstract class Combatiente {
         return sb.toString();
     }
 
-    // setters & getters
+    // Getters simples
     public int getId() { return id; }
     public String getNombre() { return nombre; }
     public int getVida() { return vida; }
@@ -84,7 +79,6 @@ public abstract class Combatiente {
 
     @Override
     public String toString() {
-        return String.format("%s (HP:%d, ATK:%d)", nombre, vida, ataque);
+        return nombre + " (HP:" + vida + ", ATK:" + ataque + ")";
     }
 }
-

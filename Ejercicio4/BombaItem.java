@@ -1,29 +1,24 @@
 package Ejercicio4;
 
-package model;
-
-import controller.Controller;
-
 import java.util.List;
 
+/*
+ Bomba: daño de área a todos los enemigos vivos.
+*/
 public class BombaItem extends Item {
-
-    public BombaItem(int daño) {
-        super("Bomba", daño);
-    }
+    public BombaItem(int daño) { super("Bomba", daño); }
 
     @Override
     public void usar(Combatiente usuario, Combatiente objetivo, Controller controller) {
-        // Bomba da daño a todos los enemigos (área)
+        // objetivo ignorado; afecta a todos los enemigos
         List<Combatiente> enemigos = controller.getEnemigos();
-        controller.log(usuario.getNombre() + " lanza una " + nombre + " causando " + puntosEfecto + " a todos los enemigos.");
+        controller.registrarAccion(usuario.getNombre() + " lanza una " + nombre + " causando " + puntosEfecto + " a todos los enemigos.");
         for (Combatiente e : enemigos) {
             if (!e.isMuerto()) {
                 e.recibirDaño(puntosEfecto);
-                controller.log(e.getNombre() + " recibe " + puntosEfecto + " de la " + nombre + ".");
-                if (e.isMuerto()) controller.log(e.getNombre() + " ha muerto por la Bomba!");
+                controller.registrarAccion(e.getNombre() + " recibe " + puntosEfecto + " de la Bomba.");
+                if (e.isMuerto()) controller.registrarAccion(e.getNombre() + " fue derrotado por la Bomba.");
             }
         }
     }
 }
-

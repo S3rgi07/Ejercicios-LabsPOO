@@ -1,20 +1,19 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Furia: aumenta ataque del objetivo (implementado de forma simple y permanente aquí).
+ Si quieres duración limitada, habría que llevar un sistema de buffs con tiempo.
+*/
 public class FuriaItem extends Item {
-
-    public FuriaItem(int aumento) {
-        super("Furia", aumento);
-    }
+    public FuriaItem(int aumento) { super("Furia", aumento); }
 
     @Override
     public void usar(Combatiente usuario, Combatiente objetivo, Controller controller) {
-        // aumenta ataque del objetivo por un turno: implementamos como aumento permanente sencillo para demo
+        if (objetivo == null || objetivo.isMuerto()) {
+            controller.registrarAccion(usuario.getNombre() + " no puede usar " + nombre + " en objetivo inválido.");
+            return;
+        }
         objetivo.ataque += puntosEfecto;
-        controller.log(usuario.getNombre() + " usa " + nombre + " sobre " + objetivo.getNombre() + ". Ataque + " + puntosEfecto + " por turno.");
-        // Nota: para implementación más fiel, habría que trackear duración y revertir después.
+        controller.registrarAccion(usuario.getNombre() + " usa " + nombre + " y aumenta ataque de " + objetivo.getNombre() + " en " + puntosEfecto);
     }
-}
-
 }

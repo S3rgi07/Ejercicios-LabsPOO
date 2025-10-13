@@ -1,14 +1,16 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Jefe: tiene defensa extra y una habilidad adicional.
+*/
 public class Jefe extends Enemigo {
     private HabilidadEspecial habilidadExtra;
     private int defensa;
 
-    public Jefe(int id, String nombre, int vida, int ataque, int defensa, HabilidadEspecial habilidad, HabilidadEspecial habilidadExtra) {
-        super(id, nombre, vida, ataque, habilidad);
-        this.habilidadExtra = habilidadExtra;
+    public Jefe(int id, String nombre, int vida, int ataque, int defensa,
+                HabilidadEspecial hab, HabilidadEspecial habExtra) {
+        super(id, nombre, vida, ataque, hab);
+        this.habilidadExtra = habExtra;
         this.defensa = defensa;
     }
 
@@ -19,7 +21,6 @@ public class Jefe extends Enemigo {
 
     @Override
     public void usarHabilidad(Combatiente objetivo, Controller controller) {
-        // Jefe tiene mayor probabilidad de usar habilidad, puede usar la extra a veces
         double r = Math.random();
         if (r < 0.5 && habilidad != null) {
             habilidad.usar(this, objetivo, controller);
@@ -32,16 +33,16 @@ public class Jefe extends Enemigo {
 
     @Override
     public void tomarTurno(Controller controller) {
-        // Jefe más agresivo: 70% habilidades
-        Combatiente player = controller.getJugador();
-        if (player.isMuerto()) {
+        // Jefe tiene más probabilidad de usar habilidades (70%)
+        Combatiente objetivo = controller.getEquipoJugadorVivoAsistido();
+        if (objetivo == null) {
             pasarTurno(controller);
             return;
         }
         if (Math.random() < 0.7) {
-            usarHabilidad(player, controller);
+            usarHabilidad(objetivo, controller);
         } else {
-            atacar(player, controller);
+            atacar(objetivo, controller);
         }
     }
 }

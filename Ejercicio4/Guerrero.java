@@ -1,22 +1,22 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Guerrero: más vida y ataque. Se usa para el rol "Guerrero".
+*/
 public class Guerrero extends Combatiente {
 
     public Guerrero(int id, String nombre) {
-        // Guerrero: bastante vida y ataque, poca capacidad de items
-        super(id, nombre, 120, 20);
+        super(id, nombre, 130, 22); // valores de ejemplo
     }
 
     @Override
     public String mensaje(String contexto) {
-        return nombre + " (Guerrero) dice: \"" + contexto + "\"";
+        return nombre + " (Guerrero): " + contexto;
     }
 
     @Override
     public void tomarTurno(Controller controller) {
-        // la lógica de interacción del jugador la maneja Controller/View
-        controller.jugadorTomarTurno(this);
+        // El Controller maneja la interfaz para que el jugador elija la acción.
+        controller.iniciarTurnoJugador(this);
     }
 }

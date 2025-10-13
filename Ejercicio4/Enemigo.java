@@ -1,7 +1,9 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Clase base para enemigos. Define usarHabilidad y cómo toman turno.
+ Mantiene la lógica original: 50% usar habilidad, 50% atacar (los jefes sobreescriben).
+*/
 public abstract class Enemigo extends Combatiente {
     protected HabilidadEspecial habilidad;
 
@@ -10,20 +12,21 @@ public abstract class Enemigo extends Combatiente {
         this.habilidad = habilidad;
     }
 
+    // Cada enemigo implementa su habilidad concreta
     public abstract void usarHabilidad(Combatiente objetivo, Controller controller);
 
     @Override
     public void tomarTurno(Controller controller) {
-        // comportamiento por defecto: si tiene habilidad y el jugador está vivo, 50% habilidad 50% atacar
-        Combatiente player = controller.getJugador();
-        if (player.isMuerto()) {
+        // Comportamiento por defecto: si hay habilidad, 50% usarla, si no atacar
+        Combatiente objetivo = controller.getEquipoJugadorVivoAsistido(); // método que devuelve 1 target (original)
+        if (objetivo == null) {
             pasarTurno(controller);
             return;
         }
-        if (this.habilidad != null && Math.random() < 0.5) {
-            usarHabilidad(player, controller);
+        if (habilidad != null && Math.random() < 0.5) {
+            usarHabilidad(objetivo, controller);
         } else {
-            atacar(player, controller);
+            atacar(objetivo, controller);
         }
     }
 }

@@ -1,7 +1,8 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Clase base para items que el jugador puede usar.
+*/
 public abstract class Item {
     protected int puntosEfecto;
     protected String nombre;
@@ -13,11 +14,11 @@ public abstract class Item {
 
     public String getNombre() { return nombre; }
 
+    // Acción del item: usuario es quien lo usa, objetivo puede ser null según item
     public abstract void usar(Combatiente usuario, Combatiente objetivo, Controller controller);
 
     @Override
     public String toString() {
-        return nombre + " (efecto: " + puntosEfecto + ")";
+        return nombre + " (efecto:" + puntosEfecto + ")";
     }
 }
-

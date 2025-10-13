@@ -1,11 +1,11 @@
 package Ejercicio4;
 
-import controller.Controller;
-
+/*
+ Minion: enemigo sencillo que usa su habilidad (si la tiene) o ataca.
+*/
 public class Minion extends Enemigo {
-
-    public Minion(int id, String nombre, HabilidadEspecial habilidad) {
-        super(id, nombre, 50, 8, habilidad);
+    public Minion(int id, String nombre, HabilidadEspecial hab) {
+        super(id, nombre, 50, 8, hab);
     }
 
     @Override
