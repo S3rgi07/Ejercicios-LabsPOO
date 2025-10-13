@@ -194,14 +194,7 @@ public class ViewSwing extends JFrame {
         }
     }
 
-    // Dentro de la clase ViewSwing
-
-/**
- * Habilita los botones para el jugador que tiene el turno.
- * - Si es Guerrero, habilita acciones y asume que jugador 1 las hará.
- * - Si es Explorador y modoPlayers == 2, el segundo jugador deberá usar la interfaz.
- * Simple y directa: sólo habilita los botones y actualiza el prompt.
- */
+// Habilita o deshabilita botones según el combatiente que tenga el turno y su estado (muerto o vivo).
 public void habilitarAccionesJugador(Combatiente jugador) {
     // mostrar de quién es el turno
     lblTurnoInfo.setText("Turno: " + jugador.getNombre());
